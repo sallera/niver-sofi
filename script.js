@@ -20,7 +20,10 @@
     el("div", "msg", C.mensagemInicial)
   );
   const btnComecar = el("button", "botao-papel", C.botaoComecar);
-  btnComecar.addEventListener("click", proxima);
+  btnComecar.addEventListener("click", () => {
+    tocarMusica();
+    proxima();
+  });
   abertura.append(bilhete, btnComecar);
 
   [["♡", 8, 12, 34, -12], ["♡", 82, 18, 26, 14], ["✿", 12, 80, 30, 0],
@@ -88,6 +91,52 @@
 
   final.append(fundo, el("div", "veu"), carta, btnRecomecar);
 
+  // ---------- Música ----------
+  // celulares só deixam tocar som depois de um toque, por isso ela começa no "começar"
+  let audio = null;
+  let mudo = false;
+  let jaTocou = false;
+  const btnSom = el("button", "som", "♪");
+  btnSom.setAttribute("aria-label", "Ligar ou desligar a música");
+
+  if (C.musica) {
+    audio = new Audio(C.musica);
+    audio.loop = true;
+    audio.preload = "auto";
+    audio.addEventListener("error", () => { audio = null; btnSom.remove(); });
+    btnSom.addEventListener("click", () => {
+      if (!audio) return;
+      if (audio.paused) { mudo = false; tocarMusica(); }
+      else { mudo = true; audio.pause(); atualizarSom(); }
+    });
+    document.body.appendChild(btnSom);
+  }
+
+  function atualizarSom() {
+    btnSom.classList.add("visivel");
+    btnSom.classList.toggle("mudo", !audio || audio.paused);
+  }
+
+  function tocarMusica() {
+    if (!audio || mudo || !audio.paused) return;
+    if (!jaTocou) {
+      jaTocou = true;
+      const comeco = Number(C.musicaInicio) || 0;
+      if (comeco) {
+        if (audio.readyState >= 1) audio.currentTime = comeco;
+        else audio.addEventListener("loadedmetadata", () => { audio.currentTime = comeco; }, { once: true });
+      }
+    }
+    audio.play().then(atualizarSom, atualizarSom);
+  }
+
+  // pausa se ela sair do navegador e continua quando ela voltar
+  document.addEventListener("visibilitychange", () => {
+    if (!audio || mudo || !jaTocou) return;
+    if (document.hidden) audio.pause();
+    else audio.play().then(atualizarSom, atualizarSom);
+  });
+
   // ---------- Navegação ----------
   const telas = [abertura, ...telasFoto, final];
   telas.forEach((t) => palco.appendChild(t));
@@ -135,5 +184,6 @@
     t.classList.toggle("passada", i < inicio);
   });
   atual = inicio;
+  if (inicio > 0 && audio) atualizarSom();
   requestAnimationFrame(() => requestAnimationFrame(() => telas[inicio].classList.add("ativa")));
 })();

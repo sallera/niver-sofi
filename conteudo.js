@@ -13,6 +13,12 @@ const CONTEUDO = {
 feliz aniversário, meu amor! ♡`,
   botaoComecar: `começar →`,
 
+  // ---------- Música (começa quando ela toca em "começar") ----------
+  // musica       → arquivo .mp3 dentro da pasta "musica" (deixe `` para sem música)
+  // musicaInicio → em quantos segundos a música começa (ex: 45 = pula pro refrão)
+  musica: `musica/musica.mp3`,
+  musicaInicio: 0,
+
   // ---------- Telas 2 a 6: fotos ----------
   // legenda  → escrita na parte branca da polaroid (curtinha)
   // texto    → aparece embaixo da polaroid
@@ -55,7 +61,7 @@ feliz aniversário, meu amor! ♡`,
   // Cada linha aparece uma de cada vez. Linha em branco = espaço entre parágrafos.
   mensagemFinal: `minha linda,
 
-desejo que sua vida seja tão feliz e alegre quanto você me faz sentir todos os dias,
+desejo que sua vida seja tão feliz e alegre quanto você me faz todos os dias,
 que nosso amor e companheirismo um pelo outro possa crescer cada vez mais.
 você merece o mundo e espero poder continuar crescendo e aprendendo cada vez mais com você! 
 Eu te amo! ♡`,

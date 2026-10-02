@@ -319,6 +319,39 @@ button {
   animation-delay: var(--atraso);
 }
 
+/* ===================== Botão de música ===================== */
+.som {
+  position: fixed;
+  top: calc(env(safe-area-inset-top) + 8px);
+  right: calc(env(safe-area-inset-right) + 10px);
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--papel);
+  color: var(--tinta);
+  font-family: system-ui, sans-serif;
+  font-size: 20px;
+  line-height: 40px;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0,0,0,.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .4s ease;
+}
+.som.visivel { opacity: .9; pointer-events: auto; }
+.som.mudo { opacity: .55; }
+.som.mudo::after {
+  content: "";
+  position: absolute;
+  left: 9px;
+  right: 9px;
+  top: 50%;
+  height: 2px;
+  background: currentColor;
+  transform: rotate(-45deg);
+}
+
 /* telas baixinhas (ex: iPhone SE com barra do navegador) */
 @media (max-height: 620px) {
   .tela { padding-top: calc(env(safe-area-inset-top) + 18px); }
