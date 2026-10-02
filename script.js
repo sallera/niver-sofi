@@ -16,7 +16,6 @@
   const bilhete = el("div", "bilhete");
   bilhete.append(
     el("div", "fita"),
-    el("div", "para", "para a"),
     el("div", "nome", C.nome),
     el("div", "msg", C.mensagemInicial)
   );
